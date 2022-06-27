@@ -1,6 +1,7 @@
 extends Node
 
 var PlayerIDs: Dictionary
+var hub_server
 
 func _ready():
 	var player_data_file = File.new()

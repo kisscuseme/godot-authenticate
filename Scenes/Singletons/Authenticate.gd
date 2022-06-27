@@ -15,11 +15,11 @@ func StartServer():
 	network.connect("peer_connected", self, "_Peer_Connected")
 	network.connect("peer_disconnected", self, "_Peer_Disconnected")
 
-func _Peer_Connected(gateway_id):
-	print("Gateway " + str(gateway_id) + " Connected")
+func _Peer_Connected(server_id):
+	print("Server " + str(server_id) + " Connected")
 	
-func _Peer_Disconnected(gateway_id):
-	print("Gateway " + str(gateway_id) + " Disconnected")
+func _Peer_Disconnected(server_id):
+	print("Server " + str(server_id) + " Disconnected")
 
 remote func AuthenticatePlayer(username, password, player_id):
 	print("authentication request received")
@@ -44,8 +44,7 @@ remote func AuthenticatePlayer(username, password, player_id):
 			randomize()
 			token = str(randi()).sha256_text() + str(OS.get_unix_time())
 			print("token: " + token)
-			var gameserver = "GameServer1" # 로드 밸런싱을 통해 선택되도록 수정되어야 함
-			GameServerHub.DistributeLoginToken(token, gameserver)
+			rpc_id(PlayerData.hub_server, "DistributeLoginToken", token)
 		
 	print("authentication result send to gateway server")
 	rpc_id(gateway_id, "AuthenticationResults", result, player_id, token)
@@ -84,3 +83,6 @@ func GenerateHashedPassword(password, salt):
 	print("final hashed password: " + hashed_password)
 	print(str(OS.get_system_time_msecs()))
 	return hashed_password
+
+remote func RegisterHubServer(server_id):
+	PlayerData.hub_server = server_id
