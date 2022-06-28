@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var port = 1911
+var port = GlobalData.server_info["AUTHENTICATE"]["PORT"]
 var max_servers = 5
 
 func _ready():

@@ -16,6 +16,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+GlobalData="*res://Scenes/Singletons/GlobalData.gd"
 PlayerData="*res://Scenes/Singletons/PlayerData.gd"
 
 [physics]
